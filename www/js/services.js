@@ -1,11 +1,16 @@
-angular.module('starter.services', [])
+angular.module('afloat.services', [])
 
-.factory('DashboardService', function($http) {
+.factory('UserService', function($http) {
   var service = {}
 
-  service.post = function(newUserInfo) {
-    return $http.post('https://alisuehobbs-afloat.herokuapp.com/signup', newUserInfo)
- }
+  service.postNewUser = function(data) {
+    console.log('made it to the service');
+    return $http.post('https://alisuehobbs-afloat.herokuapp.com/signup', data)
+  }
+
+  service.get = function() {
+    return $http.get('https://alisuehobbs-afloat.herokuapp.com/signup')
+  }
 
   return service
 });
