@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'ngCookies'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'ngCookies', 'zingchart-angularjs'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

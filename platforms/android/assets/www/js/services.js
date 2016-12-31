@@ -11,5 +11,9 @@ angular.module('starter.services', [])
     return $http.post('https://alisuehobbs-afloat.herokuapp.com/login', data)
   }
 
+  service.getMoods = function(id) {
+    return $http.get(`https://alisuehobbs-afloat.herokuapp.com/moods/${id}`)
+  }
+
   return service
 });
