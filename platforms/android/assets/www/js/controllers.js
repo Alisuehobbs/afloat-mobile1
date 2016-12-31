@@ -2,20 +2,33 @@ angular.module('starter.controllers', [])
 
 .controller('RegisterCtrl', function($scope, $ionicPlatform, UserService, $location, $cookies) {
   $ionicPlatform.ready(function() {
+
     $scope.submitSignUp = function(newUser) {
       UserService.postNewUser(newUser).success(function(response) {
         if (!response.message) {
           $cookies.putObject('mobileLogIn', response)
           $scope.newUser = {}
-          $scope.signUp.$setPristine()
           $location.url('/tab/dash')
         } else {
-          $scope.error = response
+          $scope.error = response.message
+        }
+      })
+    }
+
+    $scope.submitLogIn = function(returningUser) {
+      UserService.loginUser(returningUser).success(function(response) {
+        if (!response.message) {
+          $cookies.putObject('mobileLogIn', response)
+          $scope.returningUser = {}
+          $location.url('/tab/dash')
+        } else {
+          $scope.error = response.message
         }
       })
     }
   })
 })
+
 
 .controller('DashCtrl', function($scope, $cordovaLocalNotification, $ionicPopup, $ionicPlatform, $cookies) {
 

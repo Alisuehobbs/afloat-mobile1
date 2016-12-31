@@ -4,12 +4,11 @@ angular.module('starter.services', [])
   var service = {}
 
   service.postNewUser = function(data) {
-    console.log('made it to the service');
     return $http.post('https://alisuehobbs-afloat.herokuapp.com/signup', data)
   }
 
-  service.get = function() {
-    return $http.get('https://alisuehobbs-afloat.herokuapp.com/signup')
+  service.loginUser = function(data) {
+    return $http.post('https://alisuehobbs-afloat.herokuapp.com/login', data)
   }
 
   return service

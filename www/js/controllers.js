@@ -2,11 +2,24 @@ angular.module('starter.controllers', [])
 
 .controller('RegisterCtrl', function($scope, $ionicPlatform, UserService, $location, $cookies) {
   $ionicPlatform.ready(function() {
+
     $scope.submitSignUp = function(newUser) {
       UserService.postNewUser(newUser).success(function(response) {
         if (!response.message) {
-          $cookies.putObject('mobileLogIn', response)
+          $cookies.putObject('mobileLogIn', response[0])
           $scope.newUser = {}
+          $location.url('/tab/dash')
+        } else {
+          $scope.error = response.message
+        }
+      })
+    }
+
+    $scope.submitLogIn = function(returningUser) {
+      UserService.loginUser(returningUser).success(function(response) {
+        if (!response.message) {
+          $cookies.putObject('mobileLogIn', response)
+          $scope.returningUser = {}
           $location.url('/tab/dash')
         } else {
           $scope.error = response.message
@@ -16,13 +29,14 @@ angular.module('starter.controllers', [])
   })
 })
 
+
 .controller('DashCtrl', function($scope, $cordovaLocalNotification, $ionicPopup, $ionicPlatform, $cookies) {
 
   $ionicPlatform.ready(function() {
 
     var cookie = $cookies.getObject('mobileLogIn')
-    console.log('cookie:', cookie);
-    $scope.user = cookie[0]
+    console.log('cookie:', cookie.firstName);
+    $scope.user = cookie
 
     console.log('im super ready');
 
