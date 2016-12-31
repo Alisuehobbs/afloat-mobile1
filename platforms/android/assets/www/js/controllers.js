@@ -1,5 +1,22 @@
 angular.module('starter.controllers', [])
 
+.controller('RegisterCtrl', function($scope, $ionicPlatform, UserService, $location, $cookies) {
+  $ionicPlatform.ready(function() {
+    $scope.submitSignUp = function(newUser) {
+      UserService.postNewUser(newUser).success(function(response) {
+        if (!response.message) {
+          $cookies.putObject('mobileLogIn', response)
+          $scope.newUser = {}
+          $scope.signUp.$setPristine()
+          $location.url('/tab/dash')
+        } else {
+          $scope.error = response
+        }
+      })
+    }
+  })
+})
+
 .controller('DashCtrl', function($scope, $cordovaLocalNotification, $ionicPopup, $ionicPlatform, $cookies) {
 
   $ionicPlatform.ready(function() {
@@ -39,19 +56,6 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('RegisterCtrl', function($scope, $ionicPlatform, UserService, $location, $cookies) {
-  $ionicPlatform.ready(function() {
-    $scope.submitSignUp = function(newUser) {
-      UserService.postNewUser(newUser).success(function(response) {
-        $cookies.putObject('mobileLogIn', response)
-        $scope.newUser = {}
-        $location.url('/tab/dash')
-      }).error(function(error) {
-        $scope.error = error
-      })
-    }
-  })
-})
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
