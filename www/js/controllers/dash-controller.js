@@ -1,36 +1,4 @@
-angular.module('starter.controllers', [])
-
-.controller('RegisterCtrl', function($scope, $ionicPlatform, UserService, $location, $cookies) {
-  $ionicPlatform.ready(function() {
-
-    $scope.submitSignUp = function(newUser) {
-      UserService.postNewUser(newUser).success(function(response) {
-        if (!response.message) {
-          $cookies.putObject('mobileLogIn', response[0])
-          $scope.newUser = {}
-          $location.url('/tab/dash')
-        } else {
-          $scope.error = response.message
-        }
-      })
-    }
-
-    $scope.submitLogIn = function(returningUser) {
-      UserService.loginUser(returningUser).success(function(response) {
-        if (!response.message) {
-          $cookies.putObject('mobileLogIn', response)
-          $scope.returningUser = {}
-          $location.url('/tab/dash')
-        } else {
-          $scope.error = response.message
-        }
-      })
-    }
-  })
-})
-
-
-.controller('DashCtrl', function($scope, $cordovaLocalNotification, $ionicPopup, $ionicPlatform, $cookies, UserService) {
+app.controller('DashController', function($scope, $cordovaLocalNotification, $ionicPopup, $ionicPlatform, $cookies, CorrelationService, $ionicModal) {
 
   $ionicPlatform.ready(function() {
 
@@ -59,7 +27,7 @@ angular.module('starter.controllers', [])
       });
     };
 
-    UserService.getMoods(cookie.id).success(function(data) {
+    CorrelationService.getMoods(cookie.id).success(function(data) {
       getDate(data)
     })
 
@@ -113,19 +81,46 @@ angular.module('starter.controllers', [])
       }
     }
 
+    $ionicModal.fromTemplateUrl('templates/genPop/moods.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal1 = modal;
+    });
+
+    $scope.openModal = function() {
+      $scope.modal1.show();
+    };
+
+    $scope.closeModal = function() {
+      $scope.modal1.hide();
+    };
+
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.modal1.remove();
+    });
+
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+      // Execute action
+    });
+
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+      // Execute action
+    });
+
+    $scope.submitMood = function(mood) {
+      var moodObj = {
+        user_id: cookie.id
+        mood: mood,
+      }
+      console.log('moodObj:', moodObj);
+      CorrelationService.postMood(mood).success(function(data) {
+        console.log('data:', data);
+      })
+    }
+
   })
 })
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});

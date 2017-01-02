@@ -1,6 +1,6 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'ngCookies', 'zingchart-angularjs'])
+var app = angular.module('afloat', ['ionic', 'ngCordova', 'ngCookies', 'zingchart-angularjs'])
 
-.run(function($ionicPlatform) {
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     console.log('device is ready');
     window.plugin.notification.local.registerPermission(function(granted) {
@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
   .state('landing', {
@@ -55,30 +55,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+        controller: 'DashController'
       }
     }
   })
-
-  .state('tab.chats', {
-    url: '/chats',
-    views: {
-      'tab-chats': {
-        templateUrl: 'templates/tab-chats.html',
-        controller: 'ChatsCtrl'
-      }
-    }
-  })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
 
   $urlRouterProvider.otherwise('/landing');
 

@@ -60,4 +60,5 @@
     <preference name="SplashScreen" value="screen" />
     <allow-navigation href="http://192.168.0.14:8100" />
     <allow-navigation href="https://alisuehobbs-afloat.herokuapp.com/*" />
+    <allow-navigation href="http://localhost*" />
 </widget>
